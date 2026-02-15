@@ -12,6 +12,7 @@ import {
   CardTitle
 } from '@/presentation/components/ui/card'
 import Link from 'next/link'
+import { GoogleSignInButton } from './google-sign-in-button'
 
 type AuthFormProps = {
   type: 'login' | 'register'
@@ -36,7 +37,18 @@ export function AuthForm({ type, action }: AuthFormProps) {
             : 'Fill in the details to create your account'}
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-6">
+        <GoogleSignInButton />
+
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t" />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-card text-muted-foreground px-2">or</span>
+          </div>
+        </div>
+
         <form action={formAction} className="space-y-4">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
@@ -61,7 +73,7 @@ export function AuthForm({ type, action }: AuthFormProps) {
           </div>
 
           {state?.error && (
-            <p className="text-sm text-destructive">{state.error}</p>
+            <p className="text-destructive text-sm">{state.error}</p>
           )}
 
           {state?.success && (
@@ -69,14 +81,10 @@ export function AuthForm({ type, action }: AuthFormProps) {
           )}
 
           <Button type="submit" className="w-full" disabled={isPending}>
-            {isPending
-              ? 'Loading...'
-              : isLogin
-                ? 'Sign In'
-                : 'Create Account'}
+            {isPending ? 'Loading...' : isLogin ? 'Sign In' : 'Create Account'}
           </Button>
 
-          <p className="text-center text-sm text-muted-foreground">
+          <p className="text-muted-foreground text-center text-sm">
             {isLogin ? (
               <>
                 Don&apos;t have an account?{' '}

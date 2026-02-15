@@ -4,6 +4,7 @@ import { ProductGrid } from '@/presentation/components/features/product/product-
 import { makeProductRepository } from '@/infrastructure/factories'
 import { GetProducts } from '@/application/use-cases/product'
 import { isRight } from '@/shared/utils/either'
+import { mockProducts } from '@/shared/mocks/products'
 
 export default async function HomePage() {
   const repository = await makeProductRepository()
@@ -12,16 +13,16 @@ export default async function HomePage() {
     { page: 1, pageSize: 8 }
   )
 
-  const products = isRight(result) ? result.value.data : []
+  const products = isRight(result) ? result.value.data : mockProducts
 
   return (
     <div>
-      <section className="bg-gradient-to-b from-muted/50 to-background py-20">
+      <section className="from-muted/50 to-background bg-gradient-to-b py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
             Welcome to Storefront
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted-foreground">
+          <p className="text-muted-foreground mx-auto mt-4 max-w-2xl text-lg">
             Discover quality products at great prices. From electronics to
             clothing, we have everything you need.
           </p>

@@ -104,7 +104,7 @@ export class SupabaseProductRepository implements ProductRepository {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private mapProduct(row: any): Product {
+  private mapProduct = (row: any): Product => {
     return {
       id: row.id,
       title: row.title,
@@ -132,7 +132,7 @@ export class SupabaseProductRepository implements ProductRepository {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private mapImage(row: any) {
+  private mapImage = (row: any) => {
     return {
       id: row.id,
       productId: row.product_id,

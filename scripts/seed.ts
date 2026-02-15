@@ -6,9 +6,11 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-04-30.basil'
-})
+const stripe = process.env.STRIPE_SECRET_KEY
+  ? new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2026-01-28.clover'
+    })
+  : null
 
 const categories = [
   { name: 'Electronics', slug: 'electronics' },
@@ -28,7 +30,8 @@ const products = [
     price: 299.99,
     compareAtPrice: 349.99,
     categorySlug: 'electronics',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500',
+    thumbnailUrl:
+      'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500',
     rating: 4.7,
     stock: 50
   },
@@ -41,7 +44,8 @@ const products = [
     price: 199.99,
     compareAtPrice: null,
     categorySlug: 'electronics',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500',
+    thumbnailUrl:
+      'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500',
     rating: 4.5,
     stock: 75
   },
@@ -54,7 +58,8 @@ const products = [
     price: 29.99,
     compareAtPrice: 39.99,
     categorySlug: 'clothing',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500',
+    thumbnailUrl:
+      'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=500',
     rating: 4.3,
     stock: 200
   },
@@ -67,7 +72,8 @@ const products = [
     price: 89.99,
     compareAtPrice: null,
     categorySlug: 'clothing',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=500',
+    thumbnailUrl:
+      'https://images.unsplash.com/photo-1576995853123-5a10305d93c0?w=500',
     rating: 4.6,
     stock: 100
   },
@@ -80,7 +86,8 @@ const products = [
     price: 59.99,
     compareAtPrice: 79.99,
     categorySlug: 'home-garden',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1507473885765-e6ed057ab6fe?w=500',
+    thumbnailUrl:
+      'https://images.unsplash.com/photo-1507473885765-e6ed057ab6fe?w=500',
     rating: 4.4,
     stock: 120
   },
@@ -93,7 +100,8 @@ const products = [
     price: 44.99,
     compareAtPrice: null,
     categorySlug: 'home-garden',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=500',
+    thumbnailUrl:
+      'https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=500',
     rating: 4.8,
     stock: 80
   },
@@ -106,7 +114,8 @@ const products = [
     price: 49.99,
     compareAtPrice: 64.99,
     categorySlug: 'sports',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=500',
+    thumbnailUrl:
+      'https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=500',
     rating: 4.6,
     stock: 150
   },
@@ -119,7 +128,8 @@ const products = [
     price: 129.99,
     compareAtPrice: 159.99,
     categorySlug: 'sports',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500',
+    thumbnailUrl:
+      'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500',
     rating: 4.5,
     stock: 90
   },
@@ -132,7 +142,8 @@ const products = [
     price: 34.99,
     compareAtPrice: null,
     categorySlug: 'books',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1532012197267-da84d127e765?w=500',
+    thumbnailUrl:
+      'https://images.unsplash.com/photo-1532012197267-da84d127e765?w=500',
     rating: 4.9,
     stock: 300
   },
@@ -145,7 +156,8 @@ const products = [
     price: 79.99,
     compareAtPrice: 99.99,
     categorySlug: 'electronics',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500',
+    thumbnailUrl:
+      'https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500',
     rating: 4.4,
     stock: 65
   },
@@ -158,7 +170,8 @@ const products = [
     price: 24.99,
     compareAtPrice: null,
     categorySlug: 'sports',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500',
+    thumbnailUrl:
+      'https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=500',
     rating: 4.7,
     stock: 250
   },
@@ -171,7 +184,8 @@ const products = [
     price: 69.99,
     compareAtPrice: 89.99,
     categorySlug: 'clothing',
-    thumbnailUrl: 'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500',
+    thumbnailUrl:
+      'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500',
     rating: 4.5,
     stock: 60
   }
@@ -179,6 +193,11 @@ const products = [
 
 async function seed() {
   console.log('Seeding database...')
+  if (!stripe) {
+    console.log(
+      '⚠ Stripe not configured — skipping Stripe product/price creation'
+    )
+  }
 
   // Insert categories
   console.log('Creating categories...')
@@ -196,8 +215,8 @@ async function seed() {
     categoryData!.map((c: { slug: string; id: string }) => [c.slug, c.id])
   )
 
-  // Create Stripe products and insert DB products
-  console.log('Creating products with Stripe prices...')
+  // Create products (with optional Stripe integration)
+  console.log('Creating products...')
   for (const product of products) {
     const categoryId = categoryMap.get(product.categorySlug)
     if (!categoryId) {
@@ -205,24 +224,29 @@ async function seed() {
       continue
     }
 
-    // Create Stripe product + price
-    let stripeProduct
-    let stripePrice
-    try {
-      stripeProduct = await stripe.products.create({
-        name: product.title,
-        description: product.description,
-        images: [product.thumbnailUrl]
-      })
+    let stripeProductId: string | null = null
+    let stripePriceId: string | null = null
 
-      stripePrice = await stripe.prices.create({
-        product: stripeProduct.id,
-        unit_amount: Math.round(product.price * 100),
-        currency: 'usd'
-      })
-    } catch (err) {
-      console.error(`Stripe error for ${product.title}:`, err)
-      continue
+    if (stripe) {
+      try {
+        const stripeProduct = await stripe.products.create({
+          name: product.title,
+          description: product.description,
+          images: [product.thumbnailUrl]
+        })
+
+        const stripePrice = await stripe.prices.create({
+          product: stripeProduct.id,
+          unit_amount: Math.round(product.price * 100),
+          currency: 'usd'
+        })
+
+        stripeProductId = stripeProduct.id
+        stripePriceId = stripePrice.id
+      } catch (err) {
+        console.error(`Stripe error for ${product.title}:`, err)
+        continue
+      }
     }
 
     // Insert product into DB
@@ -238,8 +262,8 @@ async function seed() {
         thumbnail_url: product.thumbnailUrl,
         rating: product.rating,
         stock: product.stock,
-        stripe_product_id: stripeProduct.id,
-        stripe_price_id: stripePrice.id,
+        stripe_product_id: stripeProductId,
+        stripe_price_id: stripePriceId,
         is_active: true
       },
       { onConflict: 'slug' }
