@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Minus, Plus, Trash2 } from 'lucide-react'
@@ -17,13 +18,14 @@ import { useCartStore } from '@/presentation/store/cart-store'
 import { formatCurrency } from '@/shared/utils/format-currency'
 
 export function CartSheet({ children }: { children: React.ReactNode }) {
+  const [open, setOpen] = useState(false)
   const { items, removeItem, increaseQuantity, decreaseQuantity } =
     useCartStore()
   const totalPrice = useCartStore((s) => s.totalPrice())
   const totalItems = useCartStore((s) => s.totalItems())
 
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent className="flex w-full flex-col sm:max-w-lg">
         <SheetHeader>
@@ -55,7 +57,7 @@ export function CartSheet({ children }: { children: React.ReactNode }) {
                       >
                         {item.product.title}
                       </Link>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-muted-foreground text-sm">
                         {formatCurrency(item.product.price)}
                       </p>
                       <div className="mt-auto flex items-center gap-2">
@@ -100,7 +102,7 @@ export function CartSheet({ children }: { children: React.ReactNode }) {
                 <span>Total</span>
                 <span>{formatCurrency(totalPrice)}</span>
               </div>
-              <Button asChild className="w-full">
+              <Button asChild className="w-full" onClick={() => setOpen(false)}>
                 <Link href="/checkout">Checkout</Link>
               </Button>
             </SheetFooter>

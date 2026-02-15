@@ -8,19 +8,19 @@ Rebuilding the old `next-eccomerce` project from scratch as `storefront` for por
 
 ## Tech Stack
 
-| Category | Tool |
-|----------|------|
-| Framework | Next.js 15, React 19, TypeScript 5.9 |
-| Backend | Supabase (Auth + Postgres + Storage) |
-| Payments | Stripe |
-| Data fetching | TanStack Query 5 (client), direct calls (server) |
-| Client state | Zustand (cart) |
-| Styling | Tailwind CSS 4 + shadcn/ui |
-| Animations | Framer Motion |
-| Testing | Vitest + Testing Library |
-| Linting | ESLint 9 (flat config), Prettier |
-| Git hooks | Husky, lint-staged, commitlint |
-| Package manager | pnpm |
+| Category        | Tool                                             |
+| --------------- | ------------------------------------------------ |
+| Framework       | Next.js 15, React 19, TypeScript 5.9             |
+| Backend         | Supabase (Auth + Postgres + Storage)             |
+| Payments        | Stripe                                           |
+| Data fetching   | TanStack Query 5 (client), direct calls (server) |
+| Client state    | Zustand (cart)                                   |
+| Styling         | Tailwind CSS 4 + shadcn/ui                       |
+| Animations      | Framer Motion                                    |
+| Testing         | Vitest + Testing Library                         |
+| Linting         | ESLint 9 (flat config), Prettier                 |
+| Git hooks       | Husky, lint-staged, commitlint                   |
+| Package manager | pnpm                                             |
 
 ---
 
@@ -108,6 +108,7 @@ storefront/
 **Tables:** `categories`, `products` (with `search_vector` tsvector + GIN index), `product_images`, `orders`, `order_items`, `cart_items`
 
 **Key details:**
+
 - Products have `stripe_price_id` column — seed script creates Stripe products/prices
 - `search_vector` is a generated column from title + brand + description for full-text search
 - RLS enabled: products/categories are public read, orders/cart scoped to `auth.uid()`
@@ -239,6 +240,7 @@ create policy "Users can manage own cart"
 ## Implementation Phases
 
 ### Phase 1: Project Scaffolding
+
 - `pnpm create next-app@latest storefront` (App Router, TS, Tailwind, src/)
 - Install all dependencies
 - Init shadcn/ui (output to `src/presentation/components/ui/`)
@@ -250,12 +252,14 @@ create policy "Users can manage own cart"
 - Create full directory structure
 
 ### Phase 2: Shared + Domain Layers
+
 - Port Either monad from old project (rename Error/Success → Left/Right)
 - Create DomainError base class + concrete errors
 - Create all entity types and repository interfaces
 - Create query-adapter and format-currency utils
 
 ### Phase 3: Infrastructure Layer (can parallelize with Phase 4)
+
 - Supabase server/browser client factories
 - Stripe server instance
 - All repository implementations (product, category, order, cart, auth, payment)
@@ -263,6 +267,7 @@ create policy "Users can manage own cart"
 - Error mappers (Supabase → DomainError)
 
 ### Phase 4: Application Layer (can parallelize with Phase 3)
+
 - All use case classes with namespace types
 - GetProducts, GetProductBySlug, SearchProducts
 - GetCategories
@@ -272,16 +277,19 @@ create policy "Users can manage own cart"
 - CreateCheckoutSession
 
 ### Phase 5: Database + Seeding
+
 - Supabase migration with full schema
 - Seed script: create categories, create Stripe products/prices, insert products with images
 - Generate TypeScript types from Supabase
 
 ### Phase 6: Server Actions + Main Layer
+
 - Server Actions for auth, orders, cart sync, payment
 - Client-side providers (QueryProvider, AuthProvider, CartProvider, AppProvider)
 - Wire providers into root layout
 
 ### Phase 7: Presentation Layer
+
 - Layout: header (with search bar, cart icon, user menu), footer
 - Products page: server-rendered grid + filters sidebar (URL-based state)
 - Product detail page: image gallery, add-to-cart button, recommendations
@@ -292,15 +300,18 @@ create policy "Users can manage own cart"
 - Success: payment confirmation + cart clearing
 
 ### Phase 8: Stripe Webhook
+
 - Route handler for `checkout.session.completed`
 - Update order status to `paid`
 
 ### Phase 9: Testing
+
 - Unit tests for use cases with mock repositories
 - Either monad + query adapter tests
 - Component tests for cart, search, forms
 
 ### Phase 10: Polish
+
 - Framer Motion animations (cart sheet, page transitions, product hover)
 - Skeleton loading states (`loading.tsx`)
 - Error boundaries (`error.tsx`)
@@ -353,15 +364,21 @@ User clicks "Pay" on checkout page
 ## Environment Variables
 
 ```env
-# Supabase
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
-SUPABASE_SERVICE_ROLE_KEY=
+# Supabase (Dashboard → Settings → API)
+# Uses new publishable/secret key format (not legacy JWT anon/service_role)
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_...
+SUPABASE_SERVICE_ROLE_KEY=sb_secret_...
 
-# Stripe
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
-STRIPE_SECRET_KEY=
-STRIPE_WEBHOOK_SECRET=
+# Stripe (Dashboard → Developers → API keys)
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_SECRET_KEY=sk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...
+
+# Google OAuth (optional, configured in Supabase Dashboard → Auth → Providers)
+CLIENT_ID=
+CLIENT_SECRET=
+GOOGLE_CALL_BACK_URL=https://your-project.supabase.co/auth/v1/callback
 
 # App
 NEXT_PUBLIC_APP_URL=http://localhost:3000
