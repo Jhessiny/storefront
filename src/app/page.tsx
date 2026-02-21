@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 import { ProductGrid } from '@/presentation/components/features/product/product-grid'
 import { makeProductRepository } from '@/infrastructure/factories'
 import { GetProducts } from '@/application/use-cases/product'
@@ -16,19 +17,28 @@ export default async function HomePage() {
 
   return (
     <div>
-      <section className="container mx-auto px-4 lg:px-8">
-        <div className="border-b py-24 lg:py-32">
-          <h1 className="font-display text-[clamp(3rem,8vw,7rem)] leading-[0.95] tracking-tight">
+      <section className="relative min-h-[70vh] overflow-hidden">
+        <Image
+          src="/hero-cafe.png"
+          alt="A warm literary jazz cafe with bookshelves and ambient lighting"
+          fill
+          className="img-warm object-cover"
+          priority
+          sizes="100vw"
+        />
+        <div className="from-background via-espresso/50 to-espresso/30 absolute inset-0 bg-gradient-to-t" />
+        <div className="relative container mx-auto flex min-h-[70vh] flex-col justify-end px-4 pb-20 lg:px-8">
+          <h1 className="font-display text-espresso-foreground text-[clamp(2.5rem,7vw,5.5rem)] leading-[0.95] tracking-tight drop-shadow-lg">
             New arrivals
           </h1>
-          <div className="mt-8 flex items-end justify-between">
-            <p className="text-muted-foreground max-w-md text-[15px] leading-relaxed">
+          <div className="mt-6 flex items-end justify-between">
+            <p className="text-espresso-foreground/70 max-w-lg text-[16px] leading-relaxed">
               Each piece selected with intention. Quality products at considered
               prices, designed to elevate your everyday.
             </p>
             <Link
               href="/products"
-              className="text-muted-foreground hover:text-foreground hidden text-[13px] underline underline-offset-4 transition-colors sm:block"
+              className="font-ui link-grow text-espresso-foreground/50 hover:text-espresso-foreground hidden text-[13px] tracking-wide transition-colors sm:block"
             >
               Shop all
             </Link>
@@ -38,12 +48,12 @@ export default async function HomePage() {
 
       <section className="container mx-auto px-4 py-16 lg:px-8 lg:py-24">
         <div className="mb-10 flex items-baseline justify-between">
-          <h2 className="text-muted-foreground text-[13px] tracking-[0.15em] uppercase">
+          <h2 className="font-ui text-muted-foreground text-[11px] tracking-[0.15em] uppercase">
             Featured
           </h2>
           <Link
             href="/products"
-            className="text-muted-foreground hover:text-foreground text-[13px] underline underline-offset-4 transition-colors sm:hidden"
+            className="font-ui link-grow text-muted-foreground hover:text-foreground w-fit text-[13px] transition-colors sm:hidden"
           >
             View all
           </Link>
