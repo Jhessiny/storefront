@@ -47,7 +47,7 @@ export default async function OrderDetailPage({ params }: Props) {
       <div className="border-b py-4">
         <Link
           href="/orders"
-          className="text-muted-foreground hover:text-foreground text-[13px] transition-colors"
+          className="font-ui text-muted-foreground hover:text-oxblood text-[13px] underline-offset-4 transition-colors hover:underline"
         >
           &larr; Orders
         </Link>
@@ -60,7 +60,7 @@ export default async function OrderDetailPage({ params }: Props) {
           </h1>
           <Badge>{order.status}</Badge>
         </div>
-        <p className="text-muted-foreground/50 mt-2 text-[12px]">
+        <p className="font-ui text-muted-foreground/50 mt-2 text-[12px]">
           {new Date(order.createdAt).toLocaleDateString('en-US', {
             year: 'numeric',
             month: 'long',
@@ -72,26 +72,26 @@ export default async function OrderDetailPage({ params }: Props) {
           {order.items.map((item) => (
             <div key={item.id} className="flex gap-4 py-4">
               {item.product && (
-                <div className="bg-muted/50 relative h-24 w-20 shrink-0 overflow-hidden">
+                <div className="film-grain bg-muted/50 relative h-24 w-20 shrink-0 overflow-hidden">
                   <Image
                     src={item.product.thumbnailUrl}
                     alt={item.product.title}
                     fill
-                    className="object-cover"
+                    className="img-warm object-cover"
                   />
                 </div>
               )}
               <div className="flex flex-1 justify-between">
                 <div>
-                  <p className="text-[13px]">
+                  <p className="text-[14px]">
                     {item.product?.title || 'Product'}
                   </p>
-                  <p className="text-muted-foreground mt-0.5 text-[12px]">
+                  <p className="font-ui text-muted-foreground mt-0.5 text-[12px]">
                     Qty: {item.quantity} &times;{' '}
                     {formatCurrency(item.unitPrice)}
                   </p>
                 </div>
-                <p className="text-[13px] tabular-nums">
+                <p className="font-ui text-[13px] tabular-nums">
                   {formatCurrency(item.unitPrice * item.quantity)}
                 </p>
               </div>
@@ -100,10 +100,10 @@ export default async function OrderDetailPage({ params }: Props) {
         </div>
 
         <div className="mt-6 flex justify-between border-t pt-6">
-          <span className="text-muted-foreground text-[11px] tracking-[0.12em] uppercase">
+          <span className="font-ui text-muted-foreground text-[11px] tracking-[0.12em] uppercase">
             Total
           </span>
-          <span className="text-lg tabular-nums">
+          <span className="font-ui text-lg tabular-nums">
             {formatCurrency(order.total)}
           </span>
         </div>
