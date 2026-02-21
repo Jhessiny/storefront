@@ -1,11 +1,14 @@
 import { redirect, notFound } from 'next/navigation'
 import Image from 'next/image'
-import { makeAuthRepository, makeOrderRepository } from '@/infrastructure/factories'
+import Link from 'next/link'
+import {
+  makeAuthRepository,
+  makeOrderRepository
+} from '@/infrastructure/factories'
 import { GetSession } from '@/application/use-cases/auth'
 import { GetOrderById } from '@/application/use-cases/order'
 import { isLeft } from '@/shared/utils/either'
 import { Badge } from '@/presentation/components/ui/badge'
-import { Separator } from '@/presentation/components/ui/separator'
 import { formatCurrency } from '@/shared/utils/format-currency'
 import type { Metadata } from 'next'
 
@@ -40,54 +43,71 @@ export default async function OrderDetailPage({ params }: Props) {
   const order = orderResult.value
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="mb-8 flex items-center justify-between">
-        <h1 className="text-3xl font-bold">
-          Order #{order.id.slice(0, 8)}
-        </h1>
-        <Badge>{order.status}</Badge>
+    <div className="container mx-auto px-4 lg:px-8">
+      <div className="border-b py-4">
+        <Link
+          href="/orders"
+          className="text-muted-foreground hover:text-foreground text-[13px] transition-colors"
+        >
+          &larr; Orders
+        </Link>
       </div>
 
-      <div className="space-y-4">
-        {order.items.map((item) => (
-          <div key={item.id} className="flex gap-4 rounded-lg border p-4">
-            {item.product && (
-              <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-md">
-                <Image
-                  src={item.product.thumbnailUrl}
-                  alt={item.product.title}
-                  fill
-                  className="object-cover"
-                />
-              </div>
-            )}
-            <div className="flex flex-1 justify-between">
-              <div>
-                <p className="font-medium">
-                  {item.product?.title || 'Product'}
+      <div className="py-10">
+        <div className="flex items-center gap-4">
+          <h1 className="font-display text-3xl tracking-tight">
+            #{order.id.slice(0, 8)}
+          </h1>
+          <Badge>{order.status}</Badge>
+        </div>
+        <p className="text-muted-foreground/50 mt-2 text-[12px]">
+          {new Date(order.createdAt).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })}
+        </p>
+
+        <div className="mt-10 divide-y">
+          {order.items.map((item) => (
+            <div key={item.id} className="flex gap-4 py-4">
+              {item.product && (
+                <div className="bg-muted/50 relative h-24 w-20 shrink-0 overflow-hidden">
+                  <Image
+                    src={item.product.thumbnailUrl}
+                    alt={item.product.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              )}
+              <div className="flex flex-1 justify-between">
+                <div>
+                  <p className="text-[13px]">
+                    {item.product?.title || 'Product'}
+                  </p>
+                  <p className="text-muted-foreground mt-0.5 text-[12px]">
+                    Qty: {item.quantity} &times;{' '}
+                    {formatCurrency(item.unitPrice)}
+                  </p>
+                </div>
+                <p className="text-[13px] tabular-nums">
+                  {formatCurrency(item.unitPrice * item.quantity)}
                 </p>
-                <p className="text-sm text-muted-foreground">
-                  Qty: {item.quantity} x {formatCurrency(item.unitPrice)}
-                </p>
               </div>
-              <p className="font-medium">
-                {formatCurrency(item.unitPrice * item.quantity)}
-              </p>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+
+        <div className="mt-6 flex justify-between border-t pt-6">
+          <span className="text-muted-foreground text-[11px] tracking-[0.12em] uppercase">
+            Total
+          </span>
+          <span className="text-lg tabular-nums">
+            {formatCurrency(order.total)}
+          </span>
+        </div>
       </div>
-
-      <Separator className="my-6" />
-
-      <div className="flex justify-between text-lg font-semibold">
-        <span>Total</span>
-        <span>{formatCurrency(order.total)}</span>
-      </div>
-
-      <p className="mt-4 text-sm text-muted-foreground">
-        Ordered on {new Date(order.createdAt).toLocaleDateString()}
-      </p>
     </div>
   )
 }
