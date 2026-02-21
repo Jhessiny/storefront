@@ -26,19 +26,20 @@ export default async function HomePage() {
           priority
           sizes="100vw"
         />
-        <div className="from-background via-espresso/50 to-espresso/30 absolute inset-0 bg-gradient-to-t" />
+        <div className="from-background via-espresso/50 absolute inset-0 bg-gradient-to-t" />
+        <div className="absolute inset-0 bg-gradient-to-t from-transparent to-white/70" />
         <div className="relative container mx-auto flex min-h-[70vh] flex-col justify-end px-4 pb-20 lg:px-8">
-          <h1 className="font-display text-[clamp(2.5rem,7vw,5.5rem)] leading-[0.95] tracking-tight text-white drop-shadow-lg">
+          <h1 className="font-display text-foreground text-[clamp(2.5rem,7vw,5.5rem)] leading-[0.95] tracking-tight drop-shadow-lg">
             New arrivals
           </h1>
           <div className="mt-6 flex items-end justify-between">
-            <p className="max-w-lg text-[16px] leading-relaxed text-white/80">
+            <p className="text-foreground/70 max-w-lg text-[16px] leading-relaxed">
               Each piece selected with intention. Quality products at considered
               prices, designed to elevate your everyday.
             </p>
             <Link
               href="/products"
-              className="font-ui link-grow hidden text-[13px] tracking-wide text-white/60 transition-colors hover:text-white sm:block"
+              className="font-ui link-grow text-foreground/50 hover:text-foreground hidden text-[13px] tracking-wide transition-colors sm:block"
             >
               Shop all
             </Link>
