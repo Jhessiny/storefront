@@ -6,12 +6,12 @@ export default function NotFound() {
       <span className="font-display text-border/60 text-[8rem] leading-none tracking-tighter">
         404
       </span>
-      <p className="text-muted-foreground mt-2 text-[13px]">
+      <p className="text-muted-foreground mt-2 text-[14px]">
         This page doesn&apos;t exist.
       </p>
       <Link
         href="/"
-        className="hover:text-muted-foreground mt-8 text-[13px] underline underline-offset-4 transition-colors"
+        className="font-ui link-grow hover:text-oxblood mt-8 w-fit text-[13px] transition-colors"
       >
         Go home
       </Link>

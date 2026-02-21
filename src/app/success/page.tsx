@@ -15,7 +15,7 @@ export default function SuccessPage() {
   return (
     <div className="container mx-auto flex min-h-[600px] flex-col items-center justify-center px-4 py-16 text-center">
       <h1 className="font-display text-3xl tracking-tight">Thank you</h1>
-      <p className="text-muted-foreground mt-3 max-w-sm text-[14px] leading-relaxed">
+      <p className="text-muted-foreground mt-3 max-w-sm text-[15px] leading-relaxed">
         Your order has been placed and is being processed.
       </p>
       <div className="mt-10 flex gap-4">
@@ -27,7 +27,7 @@ export default function SuccessPage() {
         </Button>
         <Link
           href="/products"
-          className="text-muted-foreground hover:text-foreground inline-flex h-10 items-center text-[13px] underline underline-offset-4 transition-colors"
+          className="font-ui link-grow text-muted-foreground hover:text-oxblood inline-flex h-10 w-fit items-center text-[13px] transition-colors"
         >
           Continue shopping
         </Link>

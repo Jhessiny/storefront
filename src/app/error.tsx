@@ -12,11 +12,11 @@ export default function Error({
       <h1 className="font-display text-2xl tracking-tight">
         Something went wrong
       </h1>
-      <p className="text-muted-foreground mt-3 max-w-sm text-[13px]">
+      <p className="text-muted-foreground mt-3 max-w-sm text-[14px]">
         {error.message || 'An unexpected error occurred.'}
       </p>
       <button
-        className="hover:text-muted-foreground mt-8 text-[13px] underline underline-offset-4 transition-colors"
+        className="font-ui link-grow hover:text-oxblood mt-8 w-fit text-[13px] transition-colors"
         onClick={reset}
       >
         Try again
