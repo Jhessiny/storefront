@@ -40,43 +40,40 @@ export function Header() {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto flex h-16 items-center gap-4 px-4">
-        <Link href="/" className="text-xl font-bold">
+    <header className="bg-background/90 sticky top-0 z-50 w-full border-b backdrop-blur-lg">
+      <div className="container mx-auto flex h-14 items-center px-4 lg:px-8">
+        <Link href="/" className="font-display text-foreground text-xl">
           Storefront
         </Link>
 
-        <nav className="hidden items-center gap-6 md:flex">
+        <nav className="ml-10 hidden items-center gap-8 md:flex">
           <Link
             href="/products"
-            className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground text-[13px] tracking-wide transition-colors"
           >
-            Products
+            Shop
           </Link>
         </nav>
 
-        <form
-          onSubmit={handleSearch}
-          className="hidden flex-1 items-center gap-2 md:flex"
-        >
-          <div className="relative ml-auto w-full max-w-sm">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-            <Input
-              type="search"
-              placeholder="Search products..."
-              className="pl-8"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-        </form>
+        <div className="ml-auto flex items-center gap-0.5">
+          <form onSubmit={handleSearch} className="hidden md:block">
+            <div className="relative">
+              <Search className="text-muted-foreground/50 absolute top-1/2 left-2.5 h-3.5 w-3.5 -translate-y-1/2" />
+              <Input
+                type="search"
+                placeholder="Search"
+                className="placeholder:text-muted-foreground/40 focus-visible:bg-accent/50 h-8 w-40 border-0 bg-transparent pl-8 text-[13px] focus-visible:ring-0 focus-visible:ring-offset-0"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+          </form>
 
-        <div className="ml-auto flex items-center gap-2 md:ml-0">
           <CartSheet>
-            <Button variant="ghost" size="icon" className="relative">
-              <ShoppingCart className="h-5 w-5" />
+            <Button variant="ghost" size="icon" className="relative h-8 w-8">
+              <ShoppingCart className="h-4 w-4" />
               {totalItems > 0 && (
-                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-xs text-primary-foreground">
+                <span className="bg-foreground text-background absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full text-[9px] font-semibold">
                   {totalItems}
                 </span>
               )}
@@ -88,16 +85,18 @@ export function Header() {
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon">
-                      <User className="h-5 w-5" />
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <User className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuLabel className="text-muted-foreground text-[11px] font-normal">
+                      {user.email}
+                    </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
                       <Link href="/orders">
-                        <Package className="mr-2 h-4 w-4" />
+                        <Package className="mr-2 h-3.5 w-3.5" />
                         Orders
                       </Link>
                     </DropdownMenuItem>
@@ -106,33 +105,48 @@ export function Header() {
                       onClick={() => signOutAction()}
                       className="cursor-pointer"
                     >
-                      <LogOut className="mr-2 h-4 w-4" />
+                      <LogOut className="mr-2 h-3.5 w-3.5" />
                       Sign out
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               ) : (
-                <Button variant="ghost" size="sm" asChild>
-                  <Link href="/auth/login">Sign in</Link>
-                </Button>
+                <Link
+                  href="/auth/login"
+                  className="text-muted-foreground hover:text-foreground ml-2 text-[13px] transition-colors"
+                >
+                  Sign in
+                </Link>
               )}
             </>
           )}
 
           <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
-                <Menu className="h-5 w-5" />
+              <Button
+                variant="ghost"
+                size="icon"
+                className="ml-1 h-8 w-8 md:hidden"
+              >
+                <Menu className="h-4 w-4" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="left">
-              <nav className="flex flex-col gap-4 pt-8">
+            <SheetContent side="left" className="w-72">
+              <nav className="flex flex-col gap-6 pt-12">
                 <Link
-                  href="/products"
-                  className="text-lg font-medium"
+                  href="/"
+                  className="font-display text-2xl"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Products
+                  Storefront
+                </Link>
+                <div className="bg-border h-px" />
+                <Link
+                  href="/products"
+                  className="text-sm"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Shop
                 </Link>
                 <form onSubmit={handleSearch} className="flex gap-2">
                   <Input
@@ -140,9 +154,15 @@ export function Header() {
                     placeholder="Search..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
+                    className="h-9 text-sm"
                   />
-                  <Button type="submit" size="icon">
-                    <Search className="h-4 w-4" />
+                  <Button
+                    type="submit"
+                    size="icon"
+                    variant="outline"
+                    className="h-9 w-9"
+                  >
+                    <Search className="h-3.5 w-3.5" />
                   </Button>
                 </form>
               </nav>
