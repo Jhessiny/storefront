@@ -9,18 +9,23 @@ import { CreateCheckoutSession } from '@/application/use-cases/payment/create-ch
 import { GetSession } from '@/application/use-cases/auth/get-session'
 import type { LocalCartItem } from '@/domain/entities'
 import { isLeft, isRight } from '@/shared/utils/either'
+import { env } from '@/env'
 
 export async function createCheckoutSessionAction(items: LocalCartItem[]) {
   const authRepository = await makeAuthRepository()
   const sessionResult = await new GetSession(authRepository).execute()
 
-  if (isLeft(sessionResult) || !isRight(sessionResult) || !sessionResult.value) {
+  if (
+    isLeft(sessionResult) ||
+    !isRight(sessionResult) ||
+    !sessionResult.value
+  ) {
     return { error: 'You must be logged in to checkout' }
   }
 
   const orderRepository = await makeOrderRepository()
   const paymentRepository = makePaymentRepository()
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+  const appUrl = env.NEXT_PUBLIC_APP_URL ?? 'http://localhost:3000'
 
   const result = await new CreateCheckoutSession(
     paymentRepository,

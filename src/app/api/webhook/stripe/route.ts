@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import { stripe } from '@/infrastructure/api/stripe-server'
 import { makeServiceOrderRepository } from '@/infrastructure/factories'
+import { env } from '@/env'
 import type Stripe from 'stripe'
 
 export async function POST(request: Request) {
@@ -27,7 +28,7 @@ export async function POST(request: Request) {
     event = stripe!.webhooks.constructEvent(
       body,
       signature,
-      process.env.STRIPE_WEBHOOK_SECRET!
+      env.STRIPE_WEBHOOK_SECRET!
     )
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Unknown error'

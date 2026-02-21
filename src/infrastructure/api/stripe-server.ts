@@ -1,7 +1,8 @@
 import Stripe from 'stripe'
+import { env } from '@/env'
 
-export const stripe = process.env.STRIPE_SECRET_KEY
-  ? new Stripe(process.env.STRIPE_SECRET_KEY, {
+export const stripe = env.STRIPE_SECRET_KEY
+  ? new Stripe(env.STRIPE_SECRET_KEY, {
       apiVersion: '2026-01-28.clover',
       typescript: true
     })
