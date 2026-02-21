@@ -1,11 +1,10 @@
 import { notFound } from 'next/navigation'
 import Image from 'next/image'
+import Link from 'next/link'
 import { makeProductRepository } from '@/infrastructure/factories'
 import { GetProductBySlug } from '@/application/use-cases/product'
 import { isLeft } from '@/shared/utils/either'
 import { formatCurrency } from '@/shared/utils/format-currency'
-import { Badge } from '@/presentation/components/ui/badge'
-import { Separator } from '@/presentation/components/ui/separator'
 import { AddToCartButton } from '@/presentation/components/features/product/add-to-cart-button'
 import type { Metadata } from 'next'
 
@@ -42,17 +41,26 @@ export default async function ProductDetailPage({ params }: Props) {
     product.compareAtPrice && product.compareAtPrice > product.price
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="grid gap-8 md:grid-cols-2">
-        <div className="space-y-4">
-          <div className="relative aspect-square overflow-hidden rounded-lg">
+    <div className="container mx-auto px-4 lg:px-8">
+      <div className="border-b py-4">
+        <Link
+          href="/products"
+          className="text-muted-foreground hover:text-foreground text-[13px] transition-colors"
+        >
+          &larr; Back
+        </Link>
+      </div>
+
+      <div className="grid gap-12 py-10 md:grid-cols-[1.2fr_1fr] lg:gap-20 lg:py-16">
+        <div className="space-y-2">
+          <div className="bg-muted/50 relative aspect-[3/4] overflow-hidden">
             <Image
               src={product.thumbnailUrl}
               alt={product.title}
               fill
               className="object-cover"
               priority
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="(max-width: 768px) 100vw, 55vw"
             />
           </div>
           {product.images.length > 0 && (
@@ -60,14 +68,14 @@ export default async function ProductDetailPage({ params }: Props) {
               {product.images.map((image) => (
                 <div
                   key={image.id}
-                  className="relative aspect-square overflow-hidden rounded-md"
+                  className="bg-muted/50 relative aspect-square cursor-pointer overflow-hidden transition-opacity hover:opacity-75"
                 >
                   <Image
                     src={image.url}
                     alt={image.altText || product.title}
                     fill
                     className="object-cover"
-                    sizes="25vw"
+                    sizes="15vw"
                   />
                 </div>
               ))}
@@ -75,44 +83,48 @@ export default async function ProductDetailPage({ params }: Props) {
           )}
         </div>
 
-        <div className="space-y-6">
+        <div className="md:py-4">
           {product.category && (
-            <Badge variant="secondary">{product.category.name}</Badge>
+            <p className="text-muted-foreground text-[11px] tracking-[0.15em] uppercase">
+              {product.category.name}
+            </p>
           )}
 
-          <div>
-            <h1 className="text-3xl font-bold">{product.title}</h1>
-            <p className="text-lg text-muted-foreground">{product.brand}</p>
-          </div>
+          <h1 className="font-display mt-3 text-3xl leading-tight tracking-tight">
+            {product.title}
+          </h1>
+          <p className="text-muted-foreground mt-1 text-[13px]">
+            {product.brand}
+          </p>
 
-          <div className="flex items-center gap-3">
-            <span className="text-3xl font-bold">
+          <div className="mt-6 flex items-baseline gap-3">
+            <span className="text-lg tabular-nums">
               {formatCurrency(product.price)}
             </span>
             {hasDiscount && (
-              <span className="text-lg text-muted-foreground line-through">
+              <span className="text-muted-foreground/50 text-[13px] tabular-nums line-through">
                 {formatCurrency(product.compareAtPrice!)}
               </span>
             )}
           </div>
 
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <span>Rating: {product.rating}/5</span>
-            <span>|</span>
+          <div className="text-muted-foreground mt-4 flex items-center gap-3 text-[12px]">
+            <span>{product.rating}/5</span>
+            <span className="text-border">|</span>
             <span>
-              {product.stock > 0
-                ? `${product.stock} in stock`
-                : 'Out of stock'}
+              {product.stock > 0 ? `${product.stock} in stock` : 'Sold out'}
             </span>
           </div>
 
-          <Separator />
+          <div className="bg-border my-8 h-px" />
 
-          <p className="leading-relaxed text-muted-foreground">
+          <p className="text-muted-foreground text-[14px] leading-[1.8]">
             {product.description}
           </p>
 
-          <AddToCartButton product={product} />
+          <div className="mt-8">
+            <AddToCartButton product={product} />
+          </div>
         </div>
       </div>
     </div>

@@ -1,11 +1,13 @@
 import { Suspense } from 'react'
-import { makeProductRepository, makeCategoryRepository } from '@/infrastructure/factories'
+import {
+  makeProductRepository,
+  makeCategoryRepository
+} from '@/infrastructure/factories'
 import { GetProducts } from '@/application/use-cases/product'
 import { GetCategories } from '@/application/use-cases/category'
 import { isRight } from '@/shared/utils/either'
 import { ProductGrid } from '@/presentation/components/features/product/product-grid'
 import { ProductFilters } from '@/presentation/components/features/product/product-filters'
-import { Button } from '@/presentation/components/ui/button'
 import Link from 'next/link'
 import type { ProductFilters as ProductFiltersType } from '@/domain/entities'
 import type { Metadata } from 'next'
@@ -40,14 +42,20 @@ export default async function ProductsPage({ searchParams }: Props) {
   ])
 
   const products = isRight(productsResult) ? productsResult.value.data : []
-  const totalPages = isRight(productsResult) ? productsResult.value.totalPages : 0
+  const totalPages = isRight(productsResult)
+    ? productsResult.value.totalPages
+    : 0
   const categories = isRight(categoriesResult) ? categoriesResult.value : []
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="mb-8 text-3xl font-bold">Products</h1>
+    <div className="container mx-auto px-4 lg:px-8">
+      <div className="border-b py-10 lg:py-16">
+        <h1 className="font-display text-4xl tracking-tight lg:text-5xl">
+          Shop
+        </h1>
+      </div>
 
-      <div className="grid gap-8 lg:grid-cols-[250px_1fr]">
+      <div className="grid gap-12 py-10 lg:grid-cols-[180px_1fr] lg:py-16">
         <aside>
           <Suspense>
             <ProductFilters categories={categories} />
@@ -58,27 +66,25 @@ export default async function ProductsPage({ searchParams }: Props) {
           <ProductGrid products={products} />
 
           {totalPages > 1 && (
-            <div className="mt-8 flex justify-center gap-2">
+            <div className="mt-16 flex items-center justify-center gap-6">
               {page > 1 && (
-                <Button variant="outline" asChild>
-                  <Link
-                    href={`/products?${new URLSearchParams({ ...Object.fromEntries(Object.entries(params).filter(([, v]) => typeof v === 'string') as [string, string][]), page: String(page - 1) }).toString()}`}
-                  >
-                    Previous
-                  </Link>
-                </Button>
+                <Link
+                  href={`/products?${new URLSearchParams({ ...Object.fromEntries(Object.entries(params).filter(([, v]) => typeof v === 'string') as [string, string][]), page: String(page - 1) }).toString()}`}
+                  className="text-muted-foreground hover:text-foreground text-[13px] underline underline-offset-4 transition-colors"
+                >
+                  Previous
+                </Link>
               )}
-              <span className="flex items-center px-4 text-sm text-muted-foreground">
-                Page {page} of {totalPages}
+              <span className="text-muted-foreground/50 text-[12px] tabular-nums">
+                {page} / {totalPages}
               </span>
               {page < totalPages && (
-                <Button variant="outline" asChild>
-                  <Link
-                    href={`/products?${new URLSearchParams({ ...Object.fromEntries(Object.entries(params).filter(([, v]) => typeof v === 'string') as [string, string][]), page: String(page + 1) }).toString()}`}
-                  >
-                    Next
-                  </Link>
-                </Button>
+                <Link
+                  href={`/products?${new URLSearchParams({ ...Object.fromEntries(Object.entries(params).filter(([, v]) => typeof v === 'string') as [string, string][]), page: String(page + 1) }).toString()}`}
+                  className="text-muted-foreground hover:text-foreground text-[13px] underline underline-offset-4 transition-colors"
+                >
+                  Next
+                </Link>
               )}
             </div>
           )}
