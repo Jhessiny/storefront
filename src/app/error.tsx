@@ -1,7 +1,5 @@
 'use client'
 
-import { Button } from '@/presentation/components/ui/button'
-
 export default function Error({
   error,
   reset
@@ -10,14 +8,19 @@ export default function Error({
   reset: () => void
 }) {
   return (
-    <div className="container mx-auto flex min-h-[600px] flex-col items-center justify-center px-4 py-8 text-center">
-      <h1 className="text-3xl font-bold">Something went wrong</h1>
-      <p className="mt-4 text-muted-foreground">
+    <div className="container mx-auto flex min-h-[600px] flex-col items-center justify-center px-4 py-16 text-center">
+      <h1 className="font-display text-2xl tracking-tight">
+        Something went wrong
+      </h1>
+      <p className="text-muted-foreground mt-3 max-w-sm text-[13px]">
         {error.message || 'An unexpected error occurred.'}
       </p>
-      <Button className="mt-8" onClick={reset}>
+      <button
+        className="hover:text-muted-foreground mt-8 text-[13px] underline underline-offset-4 transition-colors"
+        onClick={reset}
+      >
         Try again
-      </Button>
+      </button>
     </div>
   )
 }
