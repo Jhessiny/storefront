@@ -70,18 +70,18 @@ export default async function ProductsPage({ searchParams }: Props) {
               {page > 1 && (
                 <Link
                   href={`/products?${new URLSearchParams({ ...Object.fromEntries(Object.entries(params).filter(([, v]) => typeof v === 'string') as [string, string][]), page: String(page - 1) }).toString()}`}
-                  className="text-muted-foreground hover:text-foreground text-[13px] underline underline-offset-4 transition-colors"
+                  className="font-ui link-grow text-muted-foreground hover:text-oxblood w-fit text-[13px] transition-colors"
                 >
                   Previous
                 </Link>
               )}
-              <span className="text-muted-foreground/50 text-[12px] tabular-nums">
+              <span className="font-ui text-muted-foreground/50 text-[12px] tabular-nums">
                 {page} / {totalPages}
               </span>
               {page < totalPages && (
                 <Link
                   href={`/products?${new URLSearchParams({ ...Object.fromEntries(Object.entries(params).filter(([, v]) => typeof v === 'string') as [string, string][]), page: String(page + 1) }).toString()}`}
-                  className="text-muted-foreground hover:text-foreground text-[13px] underline underline-offset-4 transition-colors"
+                  className="font-ui link-grow text-muted-foreground hover:text-oxblood w-fit text-[13px] transition-colors"
                 >
                   Next
                 </Link>

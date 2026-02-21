@@ -45,7 +45,7 @@ export default async function ProductDetailPage({ params }: Props) {
       <div className="border-b py-4">
         <Link
           href="/products"
-          className="text-muted-foreground hover:text-foreground text-[13px] transition-colors"
+          className="font-ui text-muted-foreground hover:text-oxblood text-[13px] underline-offset-4 transition-colors hover:underline"
         >
           &larr; Back
         </Link>
@@ -53,12 +53,12 @@ export default async function ProductDetailPage({ params }: Props) {
 
       <div className="grid gap-12 py-10 md:grid-cols-[1.2fr_1fr] lg:gap-20 lg:py-16">
         <div className="space-y-2">
-          <div className="bg-muted/50 relative aspect-[3/4] overflow-hidden">
+          <div className="film-grain bg-muted/50 relative aspect-[3/4] overflow-hidden">
             <Image
               src={product.thumbnailUrl}
               alt={product.title}
               fill
-              className="object-cover"
+              className="img-warm object-cover"
               priority
               sizes="(max-width: 768px) 100vw, 55vw"
             />
@@ -68,13 +68,13 @@ export default async function ProductDetailPage({ params }: Props) {
               {product.images.map((image) => (
                 <div
                   key={image.id}
-                  className="bg-muted/50 relative aspect-square cursor-pointer overflow-hidden transition-opacity hover:opacity-75"
+                  className="film-grain bg-muted/50 relative aspect-square cursor-pointer overflow-hidden transition-opacity hover:opacity-75"
                 >
                   <Image
                     src={image.url}
                     alt={image.altText || product.title}
                     fill
-                    className="object-cover"
+                    className="img-warm object-cover"
                     sizes="15vw"
                   />
                 </div>
@@ -85,7 +85,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
         <div className="md:py-4">
           {product.category && (
-            <p className="text-muted-foreground text-[11px] tracking-[0.15em] uppercase">
+            <p className="font-ui text-muted-foreground text-[11px] tracking-[0.15em] uppercase">
               {product.category.name}
             </p>
           )}
@@ -93,22 +93,22 @@ export default async function ProductDetailPage({ params }: Props) {
           <h1 className="font-display mt-3 text-3xl leading-tight tracking-tight">
             {product.title}
           </h1>
-          <p className="text-muted-foreground mt-1 text-[13px]">
+          <p className="font-ui text-muted-foreground mt-1 text-[13px]">
             {product.brand}
           </p>
 
           <div className="mt-6 flex items-baseline gap-3">
-            <span className="text-lg tabular-nums">
+            <span className="font-ui text-lg tabular-nums">
               {formatCurrency(product.price)}
             </span>
             {hasDiscount && (
-              <span className="text-muted-foreground/50 text-[13px] tabular-nums line-through">
+              <span className="font-ui text-muted-foreground/50 text-[13px] tabular-nums line-through">
                 {formatCurrency(product.compareAtPrice!)}
               </span>
             )}
           </div>
 
-          <div className="text-muted-foreground mt-4 flex items-center gap-3 text-[12px]">
+          <div className="font-ui text-muted-foreground mt-4 flex items-center gap-3 text-[12px]">
             <span>{product.rating}/5</span>
             <span className="text-border">|</span>
             <span>
@@ -118,7 +118,7 @@ export default async function ProductDetailPage({ params }: Props) {
 
           <div className="bg-border my-8 h-px" />
 
-          <p className="text-muted-foreground text-[14px] leading-[1.8]">
+          <p className="text-muted-foreground font-serif text-[15px] leading-[1.9]">
             {product.description}
           </p>
 
