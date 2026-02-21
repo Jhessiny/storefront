@@ -1,20 +1,30 @@
 import type { Metadata } from 'next'
-import { Outfit, Instrument_Serif, Geist_Mono } from 'next/font/google'
+import {
+  Playfair_Display,
+  Crimson_Pro,
+  Jost,
+  Geist_Mono
+} from 'next/font/google'
 import './globals.css'
 import { AppProvider } from '@/main/providers'
 import { Header } from '@/presentation/components/layout/header'
 import { Footer } from '@/presentation/components/layout/footer'
 
-const outfit = Outfit({
-  variable: '--font-outfit',
+const crimsonPro = Crimson_Pro({
+  variable: '--font-crimson',
   subsets: ['latin'],
   display: 'swap'
 })
 
-const instrumentSerif = Instrument_Serif({
-  variable: '--font-instrument-serif',
+const playfairDisplay = Playfair_Display({
+  variable: '--font-playfair',
   subsets: ['latin'],
-  weight: '400',
+  display: 'swap'
+})
+
+const jost = Jost({
+  variable: '--font-jost',
+  subsets: ['latin'],
   display: 'swap'
 })
 
@@ -36,7 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${outfit.variable} ${instrumentSerif.variable} ${geistMono.variable} antialiased`}
+        className={`${crimsonPro.variable} ${playfairDisplay.variable} ${jost.variable} ${geistMono.variable} antialiased`}
       >
         <AppProvider>
           <div className="flex min-h-screen flex-col">
