@@ -40,16 +40,19 @@ export function Header() {
   }
 
   return (
-    <header className="bg-background/90 sticky top-0 z-50 w-full border-b backdrop-blur-lg">
+    <header className="bg-espresso border-espresso-foreground/10 sticky top-0 z-50 w-full border-b backdrop-blur-lg">
       <div className="container mx-auto flex h-14 items-center px-4 lg:px-8">
-        <Link href="/" className="font-display text-foreground text-xl">
+        <Link
+          href="/"
+          className="font-display text-espresso-foreground text-xl tracking-wide"
+        >
           Storefront
         </Link>
 
         <nav className="ml-10 hidden items-center gap-8 md:flex">
           <Link
             href="/products"
-            className="text-muted-foreground hover:text-foreground text-[13px] tracking-wide transition-colors"
+            className="font-ui link-grow text-espresso-foreground/70 hover:text-espresso-foreground text-[13px] tracking-wide transition-colors"
           >
             Shop
           </Link>
@@ -58,11 +61,11 @@ export function Header() {
         <div className="ml-auto flex items-center gap-0.5">
           <form onSubmit={handleSearch} className="hidden md:block">
             <div className="relative">
-              <Search className="text-muted-foreground/50 absolute top-1/2 left-2.5 h-3.5 w-3.5 -translate-y-1/2" />
+              <Search className="text-espresso-foreground/30 absolute top-1/2 left-2.5 h-3.5 w-3.5 -translate-y-1/2" />
               <Input
                 type="search"
                 placeholder="Search"
-                className="placeholder:text-muted-foreground/40 focus-visible:bg-accent/50 h-8 w-40 border-0 bg-transparent pl-8 text-[13px] focus-visible:ring-0 focus-visible:ring-offset-0"
+                className="font-ui placeholder:text-espresso-foreground/30 text-espresso-foreground focus-visible:bg-espresso-foreground/5 h-8 w-40 border-0 bg-transparent pl-8 text-[13px] focus-visible:ring-0 focus-visible:ring-offset-0"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
@@ -70,10 +73,14 @@ export function Header() {
           </form>
 
           <CartSheet>
-            <Button variant="ghost" size="icon" className="relative h-8 w-8">
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-espresso-foreground/70 hover:text-espresso-foreground hover:bg-espresso-foreground/10 relative h-8 w-8"
+            >
               <ShoppingCart className="h-4 w-4" />
               {totalItems > 0 && (
-                <span className="bg-foreground text-background absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full text-[9px] font-semibold">
+                <span className="bg-oxblood text-oxblood-foreground absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full text-[9px] font-semibold">
                   {totalItems}
                 </span>
               )}
@@ -85,17 +92,21 @@ export function Header() {
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="text-espresso-foreground/70 hover:text-espresso-foreground hover:bg-espresso-foreground/10 h-8 w-8"
+                    >
                       <User className="h-4 w-4" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-48">
-                    <DropdownMenuLabel className="text-muted-foreground text-[11px] font-normal">
+                    <DropdownMenuLabel className="font-ui text-muted-foreground text-[11px] font-normal">
                       {user.email}
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
-                      <Link href="/orders">
+                      <Link href="/orders" className="font-ui">
                         <Package className="mr-2 h-3.5 w-3.5" />
                         Orders
                       </Link>
@@ -103,7 +114,7 @@ export function Header() {
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
                       onClick={() => signOutAction()}
-                      className="cursor-pointer"
+                      className="font-ui cursor-pointer"
                     >
                       <LogOut className="mr-2 h-3.5 w-3.5" />
                       Sign out
@@ -113,7 +124,7 @@ export function Header() {
               ) : (
                 <Link
                   href="/auth/login"
-                  className="text-muted-foreground hover:text-foreground ml-2 text-[13px] transition-colors"
+                  className="font-ui link-grow text-espresso-foreground/70 hover:text-espresso-foreground ml-2 text-[13px] transition-colors"
                 >
                   Sign in
                 </Link>
@@ -126,7 +137,7 @@ export function Header() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="ml-1 h-8 w-8 md:hidden"
+                className="text-espresso-foreground/70 hover:text-espresso-foreground hover:bg-espresso-foreground/10 ml-1 h-8 w-8 md:hidden"
               >
                 <Menu className="h-4 w-4" />
               </Button>
@@ -143,7 +154,7 @@ export function Header() {
                 <div className="bg-border h-px" />
                 <Link
                   href="/products"
-                  className="text-sm"
+                  className="font-ui text-sm"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Shop
