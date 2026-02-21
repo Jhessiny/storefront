@@ -51,7 +51,7 @@ export default async function ProductDetailPage({ params }: Props) {
         </Link>
       </div>
 
-      <div className="grid gap-12 py-10 md:grid-cols-[1.2fr_1fr] lg:gap-20 lg:py-16">
+      <div className="grid gap-12 py-10 md:grid-cols-[0.85fr_1fr] lg:gap-20 lg:py-16">
         <div className="space-y-2">
           <div className="film-grain bg-muted/50 relative aspect-[3/4] overflow-hidden">
             <Image
