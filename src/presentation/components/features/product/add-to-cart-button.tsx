@@ -1,6 +1,6 @@
 'use client'
 
-import { Minus, Plus, ShoppingCart } from 'lucide-react'
+import { Minus, Plus } from 'lucide-react'
 import { Button } from '@/presentation/components/ui/button'
 import { useCartStore } from '@/presentation/store/cart-store'
 import { useToast } from '@/presentation/hooks/use-toast'
@@ -46,24 +46,22 @@ export function AddToCartButton({
 
   if (cartItem) {
     return (
-      <div className="flex w-full items-center justify-between">
-        <Button
-          variant="outline"
-          size="icon"
-          className="h-8 w-8"
+      <div className="inline-flex items-center gap-3">
+        <button
+          className="border-border hover:bg-accent flex h-8 w-8 items-center justify-center border transition-colors"
           onClick={() => decreaseQuantity(product.id)}
         >
           <Minus className="h-3 w-3" />
-        </Button>
-        <span className="text-sm font-medium">{cartItem.quantity}</span>
-        <Button
-          variant="outline"
-          size="icon"
-          className="h-8 w-8"
+        </button>
+        <span className="w-6 text-center text-[13px] tabular-nums">
+          {cartItem.quantity}
+        </span>
+        <button
+          className="border-border hover:bg-accent flex h-8 w-8 items-center justify-center border transition-colors"
           onClick={() => increaseQuantity(product.id)}
         >
           <Plus className="h-3 w-3" />
-        </Button>
+        </button>
       </div>
     )
   }
@@ -72,11 +70,10 @@ export function AddToCartButton({
     <Button
       onClick={handleAdd}
       disabled={product.stock === 0}
-      className="w-full"
-      size="sm"
+      variant="outline"
+      className="h-9 px-6 text-[12px] tracking-[0.12em] uppercase"
     >
-      <ShoppingCart className="mr-2 h-4 w-4" />
-      {product.stock === 0 ? 'Out of stock' : 'Add to cart'}
+      {product.stock === 0 ? 'Sold out' : 'Add to bag'}
     </Button>
   )
 }

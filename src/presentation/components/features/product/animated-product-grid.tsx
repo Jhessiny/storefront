@@ -9,13 +9,13 @@ const container = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.05
+      staggerChildren: 0.04
     }
   }
 }
 
 const item = {
-  hidden: { opacity: 0, y: 20 },
+  hidden: { opacity: 0, y: 12 },
   show: { opacity: 1, y: 0 }
 }
 
@@ -23,14 +23,14 @@ export function AnimatedProductGrid({ products }: { products: Product[] }) {
   if (products.length === 0) {
     return (
       <div className="flex min-h-[300px] items-center justify-center">
-        <p className="text-muted-foreground">No products found.</p>
+        <p className="text-muted-foreground text-[13px]">No products found.</p>
       </div>
     )
   }
 
   return (
     <motion.div
-      className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+      className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-3 lg:grid-cols-4"
       variants={container}
       initial="hidden"
       animate="show"

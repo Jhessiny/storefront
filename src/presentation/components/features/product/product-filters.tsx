@@ -11,7 +11,6 @@ import {
   SelectValue
 } from '@/presentation/components/ui/select'
 import { Input } from '@/presentation/components/ui/input'
-import { Button } from '@/presentation/components/ui/button'
 import { Label } from '@/presentation/components/ui/label'
 
 export function ProductFilters({ categories }: { categories: Category[] }) {
@@ -36,19 +35,23 @@ export function ProductFilters({ categories }: { categories: Category[] }) {
     router.push('/products')
   }
 
+  const hasFilters = searchParams.toString().length > 0
+
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <div>
-        <Label className="mb-2 block text-sm">Category</Label>
+        <Label className="text-muted-foreground/60 mb-2 block text-[11px] tracking-[0.12em] uppercase">
+          Category
+        </Label>
         <Select
           value={searchParams.get('category') || 'all'}
           onValueChange={(v) => updateParam('category', v)}
         >
-          <SelectTrigger>
-            <SelectValue placeholder="All categories" />
+          <SelectTrigger className="h-9 text-[13px]">
+            <SelectValue placeholder="All" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All categories</SelectItem>
+            <SelectItem value="all">All</SelectItem>
             {categories.map((category) => (
               <SelectItem key={category.id} value={category.slug}>
                 {category.name}
@@ -59,12 +62,14 @@ export function ProductFilters({ categories }: { categories: Category[] }) {
       </div>
 
       <div>
-        <Label className="mb-2 block text-sm">Sort by</Label>
+        <Label className="text-muted-foreground/60 mb-2 block text-[11px] tracking-[0.12em] uppercase">
+          Sort
+        </Label>
         <Select
           value={searchParams.get('sort') || 'newest'}
           onValueChange={(v) => updateParam('sort', v)}
         >
-          <SelectTrigger>
+          <SelectTrigger className="h-9 text-[13px]">
             <SelectValue placeholder="Sort by" />
           </SelectTrigger>
           <SelectContent>
@@ -76,30 +81,36 @@ export function ProductFilters({ categories }: { categories: Category[] }) {
         </Select>
       </div>
 
-      <div className="grid grid-cols-2 gap-2">
-        <div>
-          <Label className="mb-2 block text-sm">Min Price</Label>
+      <div>
+        <Label className="text-muted-foreground/60 mb-2 block text-[11px] tracking-[0.12em] uppercase">
+          Price
+        </Label>
+        <div className="grid grid-cols-2 gap-2">
           <Input
             type="number"
-            placeholder="0"
+            placeholder="Min"
             defaultValue={searchParams.get('minPrice') || ''}
             onBlur={(e) => updateParam('minPrice', e.target.value)}
+            className="h-9 text-[13px]"
           />
-        </div>
-        <div>
-          <Label className="mb-2 block text-sm">Max Price</Label>
           <Input
             type="number"
-            placeholder="999"
+            placeholder="Max"
             defaultValue={searchParams.get('maxPrice') || ''}
             onBlur={(e) => updateParam('maxPrice', e.target.value)}
+            className="h-9 text-[13px]"
           />
         </div>
       </div>
 
-      <Button variant="outline" className="w-full" onClick={clearFilters}>
-        Clear filters
-      </Button>
+      {hasFilters && (
+        <button
+          className="text-muted-foreground hover:text-foreground text-[12px] underline underline-offset-4 transition-colors"
+          onClick={clearFilters}
+        >
+          Clear all
+        </button>
+      )}
     </div>
   )
 }

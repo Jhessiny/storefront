@@ -1,57 +1,55 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import type { Product } from '@/domain/entities'
-import {
-  Card,
-  CardContent,
-  CardFooter
-} from '@/presentation/components/ui/card'
-import { Badge } from '@/presentation/components/ui/badge'
 import { formatCurrency } from '@/shared/utils/format-currency'
 import { AddToCartButton } from './add-to-cart-button'
 
 export function ProductCard({ product }: { product: Product }) {
-  const hasDiscount = product.compareAtPrice && product.compareAtPrice > product.price
+  const hasDiscount =
+    product.compareAtPrice && product.compareAtPrice > product.price
+  const discountPct = hasDiscount
+    ? Math.round((1 - product.price / product.compareAtPrice!) * 100)
+    : 0
 
   return (
-    <Card className="group overflow-hidden">
-      <Link href={`/products/${product.slug}`}>
-        <div className="relative aspect-square overflow-hidden">
+    <div className="group">
+      <Link href={`/products/${product.slug}`} className="block">
+        <div className="bg-muted/50 relative aspect-[3/4] overflow-hidden">
           <Image
             src={product.thumbnailUrl}
             alt={product.title}
             fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
           {hasDiscount && (
-            <Badge className="absolute left-2 top-2" variant="destructive">
-              Sale
-            </Badge>
+            <span className="bg-foreground text-background absolute top-4 left-0 px-2.5 py-1 text-[10px] font-medium tracking-wider">
+              -{discountPct}%
+            </span>
           )}
         </div>
       </Link>
-      <CardContent className="p-4">
+      <div className="mt-3 space-y-0.5">
         <Link href={`/products/${product.slug}`}>
-          <h3 className="line-clamp-1 font-medium hover:underline">
+          <h3 className="group-hover:text-muted-foreground text-[13px] leading-snug transition-colors">
             {product.title}
           </h3>
         </Link>
-        <p className="text-sm text-muted-foreground">{product.brand}</p>
-        <div className="mt-1 flex items-center gap-2">
-          <span className="font-semibold">
+        <p className="text-muted-foreground/60 text-[11px]">{product.brand}</p>
+        <div className="flex items-center gap-2">
+          <span className="text-[13px] tabular-nums">
             {formatCurrency(product.price)}
           </span>
           {hasDiscount && (
-            <span className="text-sm text-muted-foreground line-through">
+            <span className="text-muted-foreground/40 text-[11px] tabular-nums line-through">
               {formatCurrency(product.compareAtPrice!)}
             </span>
           )}
         </div>
-      </CardContent>
-      <CardFooter className="p-4 pt-0">
+      </div>
+      <div className="mt-3">
         <AddToCartButton product={product} />
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   )
 }
