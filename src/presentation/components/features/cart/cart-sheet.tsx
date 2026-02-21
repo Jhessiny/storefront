@@ -28,14 +28,14 @@ export function CartSheet({ children }: { children: React.ReactNode }) {
       <SheetTrigger asChild>{children}</SheetTrigger>
       <SheetContent className="flex w-full flex-col sm:max-w-sm">
         <SheetHeader>
-          <SheetTitle className="text-[13px] tracking-[0.12em] uppercase">
+          <SheetTitle className="font-ui text-[13px] tracking-[0.12em] uppercase">
             Bag ({totalItems})
           </SheetTitle>
         </SheetHeader>
 
         {items.length === 0 ? (
           <div className="flex flex-1 items-center justify-center">
-            <p className="text-muted-foreground text-[13px]">
+            <p className="text-muted-foreground text-[14px]">
               Your bag is empty.
             </p>
           </div>
@@ -45,12 +45,12 @@ export function CartSheet({ children }: { children: React.ReactNode }) {
               <div className="divide-y">
                 {items.map((item) => (
                   <div key={item.productId} className="flex gap-4 py-4">
-                    <div className="bg-muted/50 relative h-24 w-20 shrink-0 overflow-hidden">
+                    <div className="film-grain bg-muted/50 relative h-24 w-20 shrink-0 overflow-hidden">
                       <Image
                         src={item.product.thumbnailUrl}
                         alt={item.product.title}
                         fill
-                        className="object-cover"
+                        className="img-warm object-cover"
                       />
                     </div>
                     <div className="flex flex-1 flex-col justify-between">
@@ -58,17 +58,17 @@ export function CartSheet({ children }: { children: React.ReactNode }) {
                         <div>
                           <Link
                             href={`/products/${item.product.slug}`}
-                            className="hover:text-muted-foreground text-[13px] leading-snug transition-colors"
+                            className="hover:text-oxblood text-[14px] leading-snug transition-colors"
                             onClick={() => setOpen(false)}
                           >
                             {item.product.title}
                           </Link>
-                          <p className="text-muted-foreground mt-0.5 text-[12px] tabular-nums">
+                          <p className="font-ui text-muted-foreground mt-0.5 text-[12px] tabular-nums">
                             {formatCurrency(item.product.price)}
                           </p>
                         </div>
                         <button
-                          className="text-muted-foreground/40 hover:text-foreground h-5 w-5 transition-colors"
+                          className="text-muted-foreground/40 hover:text-oxblood h-5 w-5 transition-colors"
                           onClick={() => removeItem(item.productId)}
                         >
                           <X className="h-3.5 w-3.5" />
@@ -76,16 +76,16 @@ export function CartSheet({ children }: { children: React.ReactNode }) {
                       </div>
                       <div className="flex items-center gap-2.5">
                         <button
-                          className="border-border text-muted-foreground hover:text-foreground flex h-6 w-6 items-center justify-center border transition-colors"
+                          className="border-border text-muted-foreground hover:border-oxblood/40 hover:text-oxblood flex h-6 w-6 items-center justify-center border transition-colors"
                           onClick={() => decreaseQuantity(item.productId)}
                         >
                           <Minus className="h-2.5 w-2.5" />
                         </button>
-                        <span className="w-4 text-center text-[12px] tabular-nums">
+                        <span className="font-ui w-4 text-center text-[12px] tabular-nums">
                           {item.quantity}
                         </span>
                         <button
-                          className="border-border text-muted-foreground hover:text-foreground flex h-6 w-6 items-center justify-center border transition-colors"
+                          className="border-border text-muted-foreground hover:border-oxblood/40 hover:text-oxblood flex h-6 w-6 items-center justify-center border transition-colors"
                           onClick={() => increaseQuantity(item.productId)}
                         >
                           <Plus className="h-2.5 w-2.5" />
@@ -99,10 +99,10 @@ export function CartSheet({ children }: { children: React.ReactNode }) {
 
             <SheetFooter className="flex-col gap-4 border-t pt-4">
               <div className="flex items-baseline justify-between">
-                <span className="text-muted-foreground text-[11px] tracking-[0.12em] uppercase">
+                <span className="font-ui text-muted-foreground text-[11px] tracking-[0.12em] uppercase">
                   Total
                 </span>
-                <span className="text-[15px] tabular-nums">
+                <span className="font-ui text-[15px] tabular-nums">
                   {formatCurrency(totalPrice)}
                 </span>
               </div>

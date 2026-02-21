@@ -37,10 +37,10 @@ export function CheckoutForm() {
   if (items.length === 0) {
     return (
       <div className="flex min-h-[400px] flex-col items-center justify-center gap-3">
-        <p className="text-muted-foreground text-[13px]">Your bag is empty.</p>
+        <p className="text-muted-foreground text-[14px]">Your bag is empty.</p>
         <Link
           href="/products"
-          className="hover:text-muted-foreground text-[13px] underline underline-offset-4 transition-colors"
+          className="font-ui link-grow hover:text-oxblood w-fit text-[13px] transition-colors"
         >
           Continue shopping
         </Link>
@@ -51,12 +51,12 @@ export function CheckoutForm() {
   if (!user) {
     return (
       <div className="flex min-h-[400px] flex-col items-center justify-center gap-3">
-        <p className="text-muted-foreground text-[13px]">
+        <p className="text-muted-foreground text-[14px]">
           Sign in to complete your purchase.
         </p>
         <Link
           href="/auth/login"
-          className="hover:text-muted-foreground text-[13px] underline underline-offset-4 transition-colors"
+          className="font-ui link-grow hover:text-oxblood w-fit text-[13px] transition-colors"
         >
           Sign in
         </Link>
@@ -67,28 +67,28 @@ export function CheckoutForm() {
   return (
     <div className="grid gap-16 lg:grid-cols-[1fr_340px]">
       <div>
-        <h2 className="text-muted-foreground text-[11px] tracking-[0.12em] uppercase">
+        <h2 className="font-ui text-muted-foreground text-[11px] tracking-[0.12em] uppercase">
           Order summary
         </h2>
         <div className="mt-6 divide-y">
           {items.map((item) => (
             <div key={item.productId} className="flex gap-4 py-4">
-              <div className="bg-muted/50 relative h-24 w-20 shrink-0 overflow-hidden">
+              <div className="film-grain bg-muted/50 relative h-24 w-20 shrink-0 overflow-hidden">
                 <Image
                   src={item.product.thumbnailUrl}
                   alt={item.product.title}
                   fill
-                  className="object-cover"
+                  className="img-warm object-cover"
                 />
               </div>
               <div className="flex flex-1 justify-between">
                 <div>
-                  <p className="text-[13px]">{item.product.title}</p>
-                  <p className="text-muted-foreground mt-0.5 text-[12px]">
+                  <p className="text-[14px]">{item.product.title}</p>
+                  <p className="font-ui text-muted-foreground mt-0.5 text-[12px]">
                     Qty: {item.quantity}
                   </p>
                 </div>
-                <p className="text-[13px] tabular-nums">
+                <p className="font-ui text-[13px] tabular-nums">
                   {formatCurrency(item.product.price * item.quantity)}
                 </p>
               </div>
@@ -98,11 +98,11 @@ export function CheckoutForm() {
       </div>
 
       <div className="lg:sticky lg:top-20 lg:self-start">
-        <h2 className="text-muted-foreground text-[11px] tracking-[0.12em] uppercase">
+        <h2 className="font-ui text-muted-foreground text-[11px] tracking-[0.12em] uppercase">
           Payment
         </h2>
 
-        <div className="mt-6 space-y-3 text-[13px]">
+        <div className="font-ui mt-6 space-y-3 text-[13px]">
           <div className="flex justify-between">
             <span className="text-muted-foreground">Subtotal</span>
             <span className="tabular-nums">{formatCurrency(totalPrice)}</span>
@@ -128,7 +128,7 @@ export function CheckoutForm() {
           {isLoading ? 'Processing...' : 'Pay with Stripe'}
         </Button>
 
-        <p className="text-muted-foreground/40 mt-3 text-center text-[11px]">
+        <p className="font-ui text-muted-foreground/40 mt-3 text-center text-[11px]">
           Secure payment by Stripe
         </p>
       </div>
