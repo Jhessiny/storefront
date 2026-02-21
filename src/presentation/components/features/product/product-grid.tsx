@@ -5,7 +5,7 @@ export function ProductGrid({ products }: { products: Product[] }) {
   if (products.length === 0) {
     return (
       <div className="flex min-h-[300px] items-center justify-center">
-        <p className="text-muted-foreground text-[13px]">No products found.</p>
+        <p className="text-muted-foreground text-[14px]">No products found.</p>
       </div>
     )
   }

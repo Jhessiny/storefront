@@ -48,16 +48,16 @@ export function AddToCartButton({
     return (
       <div className="inline-flex items-center gap-3">
         <button
-          className="border-border hover:bg-accent flex h-8 w-8 items-center justify-center border transition-colors"
+          className="border-border hover:border-oxblood/40 hover:text-oxblood flex h-8 w-8 items-center justify-center border transition-colors"
           onClick={() => decreaseQuantity(product.id)}
         >
           <Minus className="h-3 w-3" />
         </button>
-        <span className="w-6 text-center text-[13px] tabular-nums">
+        <span className="font-ui w-6 text-center text-[13px] tabular-nums">
           {cartItem.quantity}
         </span>
         <button
-          className="border-border hover:bg-accent flex h-8 w-8 items-center justify-center border transition-colors"
+          className="border-border hover:border-oxblood/40 hover:text-oxblood flex h-8 w-8 items-center justify-center border transition-colors"
           onClick={() => increaseQuantity(product.id)}
         >
           <Plus className="h-3 w-3" />
