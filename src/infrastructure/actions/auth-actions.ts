@@ -8,7 +8,10 @@ import { isLeft } from '@/shared/utils/either'
 import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 
-export async function signInAction(formData: FormData) {
+export async function signInAction(
+  _prevState: { error?: string; success?: string } | undefined,
+  formData: FormData
+) {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
 
@@ -23,7 +26,10 @@ export async function signInAction(formData: FormData) {
   redirect('/')
 }
 
-export async function signUpAction(formData: FormData) {
+export async function signUpAction(
+  _prevState: { error?: string; success?: string } | undefined,
+  formData: FormData
+) {
   const email = formData.get('email') as string
   const password = formData.get('password') as string
 

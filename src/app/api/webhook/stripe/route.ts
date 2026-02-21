@@ -4,6 +4,13 @@ import { makeServiceOrderRepository } from '@/infrastructure/factories'
 import type Stripe from 'stripe'
 
 export async function POST(request: Request) {
+  if (!stripe) {
+    return NextResponse.json(
+      { error: 'Stripe is not configured' },
+      { status: 503 }
+    )
+  }
+
   const body = await request.text()
   const signature = request.headers.get('stripe-signature')
 

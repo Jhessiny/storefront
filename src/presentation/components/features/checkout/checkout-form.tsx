@@ -125,12 +125,8 @@ export function CheckoutForm() {
           onClick={handleCheckout}
           disabled={isLoading}
         >
-          {isLoading ? 'Processing...' : 'Pay with Stripe'}
+          {isLoading ? 'Processing...' : 'Proceed to payment'}
         </Button>
-
-        <p className="font-ui text-muted-foreground/40 mt-3 text-center text-[11px]">
-          Secure payment by Stripe
-        </p>
       </div>
     </div>
   )
