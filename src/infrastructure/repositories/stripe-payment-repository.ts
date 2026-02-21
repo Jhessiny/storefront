@@ -18,13 +18,15 @@ export class StripePaymentRepository implements PaymentRepository {
       return left(new ExternalServiceError('Stripe is not configured'))
     }
 
+    const client = stripe
+
     try {
       const lineItems = items.map((item) => ({
         price: item.product.stripePriceId!,
         quantity: item.quantity
       }))
 
-      const session = await stripe.checkout.sessions.create({
+      const session = await client.checkout.sessions.create({
         mode: 'payment',
         line_items: lineItems,
         success_url: `${successUrl}?session_id={CHECKOUT_SESSION_ID}`,
