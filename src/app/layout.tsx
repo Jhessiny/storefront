@@ -1,13 +1,21 @@
 import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Outfit, Instrument_Serif, Geist_Mono } from 'next/font/google'
 import './globals.css'
 import { AppProvider } from '@/main/providers'
 import { Header } from '@/presentation/components/layout/header'
 import { Footer } from '@/presentation/components/layout/footer'
 
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin']
+const outfit = Outfit({
+  variable: '--font-outfit',
+  subsets: ['latin'],
+  display: 'swap'
+})
+
+const instrumentSerif = Instrument_Serif({
+  variable: '--font-instrument-serif',
+  subsets: ['latin'],
+  weight: '400',
+  display: 'swap'
 })
 
 const geistMono = Geist_Mono({
@@ -28,7 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${outfit.variable} ${instrumentSerif.variable} ${geistMono.variable} antialiased`}
       >
         <AppProvider>
           <div className="flex min-h-screen flex-col">
