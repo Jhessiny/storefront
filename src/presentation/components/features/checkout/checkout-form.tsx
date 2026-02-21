@@ -2,13 +2,12 @@
 
 import { useState } from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Button } from '@/presentation/components/ui/button'
-import { Separator } from '@/presentation/components/ui/separator'
 import { useCartStore } from '@/presentation/store/cart-store'
 import { useAuth } from '@/main/providers/auth-provider'
 import { createCheckoutSessionAction } from '@/infrastructure/actions'
 import { formatCurrency } from '@/shared/utils/format-currency'
-import Link from 'next/link'
 
 export function CheckoutForm() {
   const { items } = useCartStore()
@@ -37,36 +36,44 @@ export function CheckoutForm() {
 
   if (items.length === 0) {
     return (
-      <div className="flex min-h-[400px] flex-col items-center justify-center gap-4">
-        <p className="text-muted-foreground">Your cart is empty</p>
-        <Button asChild>
-          <Link href="/products">Continue Shopping</Link>
-        </Button>
+      <div className="flex min-h-[400px] flex-col items-center justify-center gap-3">
+        <p className="text-muted-foreground text-[13px]">Your bag is empty.</p>
+        <Link
+          href="/products"
+          className="hover:text-muted-foreground text-[13px] underline underline-offset-4 transition-colors"
+        >
+          Continue shopping
+        </Link>
       </div>
     )
   }
 
   if (!user) {
     return (
-      <div className="flex min-h-[400px] flex-col items-center justify-center gap-4">
-        <p className="text-muted-foreground">
-          Please sign in to proceed to checkout
+      <div className="flex min-h-[400px] flex-col items-center justify-center gap-3">
+        <p className="text-muted-foreground text-[13px]">
+          Sign in to complete your purchase.
         </p>
-        <Button asChild>
-          <Link href="/auth/login">Sign In</Link>
-        </Button>
+        <Link
+          href="/auth/login"
+          className="hover:text-muted-foreground text-[13px] underline underline-offset-4 transition-colors"
+        >
+          Sign in
+        </Link>
       </div>
     )
   }
 
   return (
-    <div className="grid gap-8 lg:grid-cols-2">
+    <div className="grid gap-16 lg:grid-cols-[1fr_340px]">
       <div>
-        <h2 className="mb-4 text-lg font-semibold">Order Summary</h2>
-        <div className="space-y-4">
+        <h2 className="text-muted-foreground text-[11px] tracking-[0.12em] uppercase">
+          Order summary
+        </h2>
+        <div className="mt-6 divide-y">
           {items.map((item) => (
-            <div key={item.productId} className="flex gap-4">
-              <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-md">
+            <div key={item.productId} className="flex gap-4 py-4">
+              <div className="bg-muted/50 relative h-24 w-20 shrink-0 overflow-hidden">
                 <Image
                   src={item.product.thumbnailUrl}
                   alt={item.product.title}
@@ -76,12 +83,12 @@ export function CheckoutForm() {
               </div>
               <div className="flex flex-1 justify-between">
                 <div>
-                  <p className="font-medium">{item.product.title}</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-[13px]">{item.product.title}</p>
+                  <p className="text-muted-foreground mt-0.5 text-[12px]">
                     Qty: {item.quantity}
                   </p>
                 </div>
-                <p className="font-medium">
+                <p className="text-[13px] tabular-nums">
                   {formatCurrency(item.product.price * item.quantity)}
                 </p>
               </div>
@@ -90,35 +97,40 @@ export function CheckoutForm() {
         </div>
       </div>
 
-      <div className="rounded-lg border p-6">
-        <h2 className="mb-4 text-lg font-semibold">Payment</h2>
+      <div className="lg:sticky lg:top-20 lg:self-start">
+        <h2 className="text-muted-foreground text-[11px] tracking-[0.12em] uppercase">
+          Payment
+        </h2>
 
-        <div className="space-y-2">
-          <div className="flex justify-between text-sm">
-            <span>Subtotal</span>
-            <span>{formatCurrency(totalPrice)}</span>
+        <div className="mt-6 space-y-3 text-[13px]">
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Subtotal</span>
+            <span className="tabular-nums">{formatCurrency(totalPrice)}</span>
           </div>
-          <div className="flex justify-between text-sm">
-            <span>Shipping</span>
+          <div className="flex justify-between">
+            <span className="text-muted-foreground">Shipping</span>
             <span>Free</span>
           </div>
-          <Separator />
-          <div className="flex justify-between font-semibold">
+          <div className="bg-border h-px" />
+          <div className="flex justify-between pt-1">
             <span>Total</span>
-            <span>{formatCurrency(totalPrice)}</span>
+            <span className="tabular-nums">{formatCurrency(totalPrice)}</span>
           </div>
         </div>
 
-        {error && <p className="mt-4 text-sm text-destructive">{error}</p>}
+        {error && <p className="text-destructive mt-4 text-[13px]">{error}</p>}
 
         <Button
-          className="mt-6 w-full"
-          size="lg"
+          className="mt-8 h-10 w-full text-[12px] tracking-[0.12em] uppercase"
           onClick={handleCheckout}
           disabled={isLoading}
         >
           {isLoading ? 'Processing...' : 'Pay with Stripe'}
         </Button>
+
+        <p className="text-muted-foreground/40 mt-3 text-center text-[11px]">
+          Secure payment by Stripe
+        </p>
       </div>
     </div>
   )
