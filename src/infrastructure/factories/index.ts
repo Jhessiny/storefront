@@ -5,8 +5,10 @@ import {
   SupabaseOrderRepository,
   SupabaseCartRepository,
   SupabaseAuthRepository,
-  StripePaymentRepository
+  StripePaymentRepository,
+  NoopPaymentRepository
 } from '../repositories'
+import { stripe } from '../api/stripe-server'
 
 export async function makeProductRepository() {
   const client = await createSupabaseServerClient()
@@ -39,5 +41,5 @@ export async function makeAuthRepository() {
 }
 
 export function makePaymentRepository() {
-  return new StripePaymentRepository()
+  return stripe ? new StripePaymentRepository() : new NoopPaymentRepository()
 }

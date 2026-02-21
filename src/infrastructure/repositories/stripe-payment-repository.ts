@@ -5,7 +5,6 @@ import type { Either } from '@/shared/utils/either'
 import { left, right } from '@/shared/utils/either'
 import { stripe } from '../api/stripe-server'
 import { mapStripeError } from '../api/error-mapper'
-import { ExternalServiceError } from '@/shared/errors'
 
 export class StripePaymentRepository implements PaymentRepository {
   async createCheckoutSession(
@@ -14,19 +13,13 @@ export class StripePaymentRepository implements PaymentRepository {
     successUrl: string,
     cancelUrl: string
   ): Promise<Either<DomainError, CheckoutSession>> {
-    if (!stripe) {
-      return left(new ExternalServiceError('Stripe is not configured'))
-    }
-
-    const client = stripe
-
     try {
       const lineItems = items.map((item) => ({
         price: item.product.stripePriceId!,
         quantity: item.quantity
       }))
 
-      const session = await client.checkout.sessions.create({
+      const session = await stripe!.checkout.sessions.create({
         mode: 'payment',
         line_items: lineItems,
         success_url: `${successUrl}?session_id={CHECKOUT_SESSION_ID}`,
