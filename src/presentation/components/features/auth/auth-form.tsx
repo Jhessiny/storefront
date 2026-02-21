@@ -25,7 +25,7 @@ export function AuthForm({ type, action }: AuthFormProps) {
       <h1 className="font-display text-3xl tracking-tight">
         {isLogin ? 'Sign in' : 'Create account'}
       </h1>
-      <p className="text-muted-foreground mt-2 text-[13px]">
+      <p className="text-muted-foreground mt-2 text-[14px]">
         {isLogin
           ? 'Enter your credentials to continue.'
           : 'Fill in the details to get started.'}
@@ -39,7 +39,7 @@ export function AuthForm({ type, action }: AuthFormProps) {
             <span className="w-full border-t" />
           </div>
           <div className="relative flex justify-center">
-            <span className="bg-background text-muted-foreground/40 px-3 text-[11px] tracking-[0.12em] uppercase">
+            <span className="font-ui bg-background text-muted-foreground/40 px-3 text-[11px] tracking-[0.12em] uppercase">
               or
             </span>
           </div>
@@ -49,7 +49,7 @@ export function AuthForm({ type, action }: AuthFormProps) {
           <div className="space-y-1.5">
             <Label
               htmlFor="email"
-              className="text-muted-foreground/60 text-[11px] tracking-[0.12em] uppercase"
+              className="font-ui text-muted-foreground/60 text-[11px] tracking-[0.12em] uppercase"
             >
               Email
             </Label>
@@ -65,7 +65,7 @@ export function AuthForm({ type, action }: AuthFormProps) {
           <div className="space-y-1.5">
             <Label
               htmlFor="password"
-              className="text-muted-foreground/60 text-[11px] tracking-[0.12em] uppercase"
+              className="font-ui text-muted-foreground/60 text-[11px] tracking-[0.12em] uppercase"
             >
               Password
             </Label>
@@ -96,13 +96,13 @@ export function AuthForm({ type, action }: AuthFormProps) {
             {isPending ? 'Loading...' : isLogin ? 'Sign in' : 'Create account'}
           </Button>
 
-          <p className="text-muted-foreground text-center text-[13px]">
+          <p className="font-ui text-muted-foreground text-center text-[13px]">
             {isLogin ? (
               <>
                 No account?{' '}
                 <Link
                   href="/auth/register"
-                  className="text-foreground underline underline-offset-4"
+                  className="text-oxblood underline underline-offset-4"
                 >
                   Sign up
                 </Link>
@@ -112,7 +112,7 @@ export function AuthForm({ type, action }: AuthFormProps) {
                 Have an account?{' '}
                 <Link
                   href="/auth/login"
-                  className="text-foreground underline underline-offset-4"
+                  className="text-oxblood underline underline-offset-4"
                 >
                   Sign in
                 </Link>
